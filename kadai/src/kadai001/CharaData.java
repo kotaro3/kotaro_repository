@@ -8,6 +8,8 @@ public class CharaData {
 	static String name;
 
 	public static void main(String[] args) {
+		SaveData sd  = new SaveData();
+	
 
 		Scanner s = new Scanner(System.in);
 		Scanner hp = new Scanner(System.in);
@@ -16,24 +18,30 @@ public class CharaData {
 		Scanner Y = new Scanner(System.in);
 		Scanner n = new Scanner(System.in);
 
-		System.out.println("名前を入力してください");
-		name = s.next();
 
+		System.out.println("名前を入力してください");
+		name = s.next();	
+		
+		
 		System.out.println("スターテスを入力してください");
 		System.out.print("HP:");
 		HP = hp.nextInt();
-
+		
+		
 		System.out.print("EXP:");
 		EXP = exp.nextInt();
+		
 
 		System.out.print("MONEY:");
 		MONEY = money.nextInt();
+		
+		sd.save(name,HP,EXP,MONEY);
 		
 		System.out.println("ロードしますか？[y/n]");
 		String y = Y.next();
 		if(y.equals(Y)){
 			LoadData l = new LoadData();
-			System.out.println(l);
+			l.load();
 		}
 
 	}

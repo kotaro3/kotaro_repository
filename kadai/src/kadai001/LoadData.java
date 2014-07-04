@@ -7,16 +7,17 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class LoadData {
-	{
+	void load(){
 
 		try {
-			
+			File saveFile = new File("i:\\savedata.save");
 			BufferedReader br = new BufferedReader(new FileReader(saveFile));
 			CharaData c = new CharaData();
 			br.readLine();
 			br.readLine();
 			br.readLine();
-			br.readLine();
+		
+			br.close();
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

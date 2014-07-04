@@ -7,16 +7,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class SaveData {
-	void save(){
+	void save(String name,int HP,int EXP,int MONEY){
 		try {
 			File saveFile = new File("i:\\savedata.save");
 			BufferedWriter bw = new BufferedWriter(new FileWriter(saveFile));
-			CharaData c = new CharaData();
-			bw.write(c.name);
-			bw.write(" ");
-			bw.write(c.HP);
-			bw.write(c.EXP);
-			bw.write(c.MONEY);
+	
+			bw.write(CharaData.name);
+			bw.write(CharaData.HP);
+			bw.write(CharaData.EXP);
+			bw.write(CharaData.MONEY);
+			bw.close();
 			
 			
 	} catch (FileNotFoundException e) {
