@@ -5,11 +5,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+
 
 public class SaveData {
 
-	CharaData c = new CharaData();
+
 
 	void save(String name, int HP, int EXP, int MONEY) {
 		try {
