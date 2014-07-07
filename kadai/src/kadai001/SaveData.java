@@ -5,25 +5,47 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class SaveData {
-	void save(String name,int HP,int EXP,int MONEY){
+
+	CharaData c = new CharaData();
+
+	void save(String name, int HP, int EXP, int MONEY) {
 		try {
-			File saveFile = new File("i:\\savedata.save");
-			BufferedWriter bw = new BufferedWriter(new FileWriter(saveFile));
-	
-			bw.write(CharaData.name);
-			bw.write(CharaData.HP);
-			bw.write(CharaData.EXP);
-			bw.write(CharaData.MONEY);
-			bw.close();
-			
-			
-	} catch (FileNotFoundException e) {
-		System.out.println(e);
-	} catch (IOException e) {
-		System.out.println(e);
-	}
+			File saveFile = new File("i:\\savedata.txt");
+			if (checkBeforeWritefile(saveFile)) {
+				BufferedWriter bw = new BufferedWriter(new FileWriter(saveFile));
+
+				bw.write("NAME:" + name);
+				bw.newLine();
+				bw.write("HP:" + HP);
+				bw.newLine();
+				bw.write("EXP:" + EXP);
+				bw.newLine();
+				bw.write("MONEY:" + MONEY);
+				bw.newLine();
+				bw.close();
+				return;
+
+			} else {
+				System.out.println("セーブ失敗しました。");
+			}
+
+		} catch (FileNotFoundException e) {
+			System.out.println(e);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 	}
 
+	private static boolean checkBeforeWritefile(File file) {
+		if (file.exists()) {
+			if (file.isFile() && file.canWrite()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
