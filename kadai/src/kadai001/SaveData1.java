@@ -7,15 +7,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 
-public class SaveData {
+public class SaveData1 {
 
 
 
-	void save(String name, int HP, int EXP, int MONEY) {
+	void save1(String name, int HP, int EXP, int MONEY) {
 		try {
-			File saveFile = new File("i:\\savedata.txt");
-			if (checkBeforeWritefile(saveFile)) {
-				BufferedWriter bw = new BufferedWriter(new FileWriter(saveFile));
+			File saveFile1 = new File("i:\\savedata1.save");
+			if (checkBeforeWritefile(saveFile1)) {
+				BufferedWriter bw = new BufferedWriter(new FileWriter(saveFile1));
 
 				bw.write("NAME:" + name);
 				bw.newLine();
@@ -26,6 +26,7 @@ public class SaveData {
 				bw.write("MONEY:" + MONEY);
 				bw.newLine();
 				bw.close();
+
 				return;
 
 			} else {
@@ -42,10 +43,10 @@ public class SaveData {
 	private static boolean checkBeforeWritefile(File file) {
 		if (file.exists()) {
 			if (file.isFile() && file.canWrite()) {
-				return true;
+				return false;
 			}
 		}
 
-		return false;
+		return true;
 	}
 }

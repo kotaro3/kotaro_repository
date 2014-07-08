@@ -7,15 +7,40 @@ public class CharaData {
 	static int MONEY;
 	static String name;
 
-	 void Charaset() {
-		SaveData sd  = new SaveData();
-		LoadData l = new LoadData();
+	void Charaset1() {
+		SaveData1 sd1 = new SaveData1();
 
 		Scanner s = new Scanner(System.in);
 		Scanner hp = new Scanner(System.in);
 		Scanner exp = new Scanner(System.in);
 		Scanner money = new Scanner(System.in);
-		Scanner Y = new Scanner(System.in);
+
+		System.out.println("名前を入力してください");
+		System.out.println("NAME:");
+		name = s.next();
+
+		System.out.println("スターテスを入力してください");
+		System.out.print("HP:");
+		HP = hp.nextInt();
+
+		System.out.print("EXP:");
+		EXP = exp.nextInt();
+
+		System.out.print("MONEY:");
+		MONEY = money.nextInt();
+
+		sd1.save1(name, HP, EXP, MONEY);
+		System.out.println("セーブしました");
+
+	}
+
+	void Charaset2() {
+		SaveData2 sd2 = new SaveData2();
+
+		Scanner s = new Scanner(System.in);
+		Scanner hp = new Scanner(System.in);
+		Scanner exp = new Scanner(System.in);
+		Scanner money = new Scanner(System.in);
 
 
 		System.out.println("名前を入力してください");
@@ -32,16 +57,34 @@ public class CharaData {
 		System.out.print("MONEY:");
 		MONEY = money.nextInt();
 
-		sd.save(name,HP,EXP,MONEY);
+		sd2.save2(name, HP, EXP, MONEY);
+		System.out.println("セーブしました");
+	}
 
-		System.out.println("ロードしますか？[y/n]");
-		String y = Y.next();
-		if(y.equals("y")){
-			l.loadData();
-		}else if(y.equals("n")){
-			System.out.println("終了します");
-		}
-		return ;
+	void Charaset3(){
+			SaveData3 sd3  = new SaveData3();
 
+			Scanner s = new Scanner(System.in);
+			Scanner hp = new Scanner(System.in);
+			Scanner exp = new Scanner(System.in);
+			Scanner money = new Scanner(System.in);
+
+
+			System.out.println("名前を入力してください");
+			System.out.println("NAME:");
+			name = s.next();
+
+			System.out.println("スターテスを入力してください");
+			System.out.print("HP:");
+			HP = hp.nextInt();
+
+			System.out.print("EXP:");
+			EXP = exp.nextInt();
+
+			System.out.print("MONEY:");
+			MONEY = money.nextInt();
+
+			sd3.save3(name,HP,EXP,MONEY);
+			System.out.println("セーブしました");
 	}
 }

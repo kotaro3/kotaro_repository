@@ -5,12 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class LoadData {
-
-	void loadData() {
+public class LoadData2 {
+	void loadData2() {
 
 		try {
-			FileReader loadFile = new FileReader("i:\\savedata.txt");
+			FileReader loadFile = new FileReader("i:\\savedata2.save");
 
 			BufferedReader br = new BufferedReader(loadFile);
 
