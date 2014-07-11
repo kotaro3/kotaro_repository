@@ -30,7 +30,6 @@ public class CharaData {
 		MONEY = money.nextInt();
 
 		sd1.save1(name, HP, EXP, MONEY);
-		System.out.println("セーブしました");
 
 	}
 

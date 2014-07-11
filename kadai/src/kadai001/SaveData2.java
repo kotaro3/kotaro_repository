@@ -23,7 +23,7 @@ public class SaveData2 {
 				bw.newLine();
 				bw.close();
 
-				return;
+				System.out.println("セーブが完了しました");
 
 			} else {
 				System.out.println("セーブ失敗しました。");
@@ -39,11 +39,11 @@ public class SaveData2 {
 	private static boolean checkBeforeWritefile(File file) {
 		if (file.exists()) {
 			if (file.isFile() && file.canWrite()) {
-				return false;
+				return true;
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 }
