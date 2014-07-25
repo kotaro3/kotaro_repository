@@ -1,4 +1,4 @@
-package NotePad;
+package kadai002;
 
 //文字を入力するための命令
 import java.util.Scanner;
