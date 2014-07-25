@@ -1,8 +1,8 @@
 package kadai003;
 
 import java.util.ArrayList;
-public class List {
 
+public class List {
 
 	static ArrayList<Person> persons = new ArrayList<>();
 
@@ -13,11 +13,10 @@ public class List {
 		persons.add(new ClubMenber("松元 ぶちょー", 20, "ワシントンD.C.", "2G1", "技術部"));
 
 
-
 		for (int i = 0; i < persons.size(); i++) {
-				persons.get(i);
-				Person.print();
-
+			Person s = persons.get(i);
+			s.print();
+			System.out.println();
 
 		}
 
