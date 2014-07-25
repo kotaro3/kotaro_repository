@@ -1,50 +1,97 @@
 package kadai002;
 
-//文字を入力するための命令
-import java.util.Scanner;
-//ファイルを作成するための命令
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.BufferedWriter;
-import java.io.PrintWriter;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
+
+import kadai002.Save;
+
+/**
+ * @author x13g020
+ * 
+ */
 public class NotePad {
-	public static void main(String args[]){
-		Scanner s = new Scanner(System.in);
+	static JFrame frame;
+	static JTextArea area;
+	static JPanel panel;
+	static JButton save;
+	static JButton load;
+	static Save sv;
 
-		System.out.println("文字を入力してください");
-		File newfile = new File("i:\\text.txt");
 
-		try {
+	/**
+	 * @param args
+	 *            main
+	 */
+	public static void main(String[] args) {
+		frame = new JFrame("メモ帳");
 
-			if (newfile.createNewFile()) {
-				System.out.println("保存できませんでした");
-			} else {
+		frame.setSize(500, 500);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-				PrintWriter pw = new PrintWriter(new BufferedWriter(
-						new FileWriter(newfile)));
+		area = new JTextArea(15, 40);
+		area.setLineWrap(true);
 
-				 while (true) {
-				String x = s.next();
-				 if (x.equals("/end")) {
-				 // 終了したい場合
-				pw.close();// ファイル書き込み
-				 break;// ループ終了
-				
-				 }
-				 // 改行する場合
-				pw.write(x);
-				pw.println();
-				
-				 }
+		panel = new JPanel();
+		save = new JButton("保存");
+		save.addActionListener(new ActionListener() {
+			/*
+			 * (非 Javadoc)
+			 * 
+			 * @see
+			 * java.awt.event.ActionListener#actionPerformed(java.awt.event.
+			 * ActionEvent) 保存
+			 */
+			public void actionPerformed(ActionEvent event) {
+				String str = area.getText();
+				sv = new Save(str);
 
 			}
-			System.out.println("保存しました");
-		} catch (IOException e) {
-			System.out.println(e);
 
-		}
+		});
+		load = new JButton("読込");
+		load.addActionListener(new ActionListener() {
+			/*
+			 * (非 Javadoc)
+			 * 
+			 * @see
+			 * java.awt.event.ActionListener#actionPerformed(java.awt.event.
+			 * ActionEvent) 読込
+			 */
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					File file = new File("i://メモ.txt");
+					Scanner s = new Scanner(file);
+					s.useDelimiter("\\r\\n");
+
+					while (s.hasNext()) {
+						String str = s.next();
+						area.setText(str);
+					}
+
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		});
+
+		panel.add(area);
+		panel.add(save);
+		panel.add(load);
+
+		frame.add(panel, BorderLayout.CENTER);
+		frame.setVisible(true);
 	}
-}
 
+}
