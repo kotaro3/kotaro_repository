@@ -12,12 +12,9 @@ public class List {
 		persons.add(new Teacher("朝賀 先生", 99, "千葉県xxx市", "ネットワーク科"));
 		persons.add(new ClubMenber("松元 ぶちょー", 20, "ワシントンD.C.", "2G1", "技術部"));
 
-
-		for (int i = 0; i < persons.size(); i++) {
-			Person s = persons.get(i);
-			s.print();
+		for (Person person : persons) {
+			person.print();
 			System.out.println();
-
 		}
 
 	}
