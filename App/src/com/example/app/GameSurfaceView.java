@@ -17,7 +17,7 @@ public class GameSurfaceView extends SurfaceView implements Runnable,
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		thread = new Thread(); //•ÊƒXƒŒƒbƒh‚ÅƒƒCƒ“ƒ‹[ƒvì¬
+		thread = new Thread(this); //ï¿½ÊƒXï¿½ï¿½ï¿½bï¿½hï¿½Åƒï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½vï¿½ì¬
 		thread.start();
 
 	}
@@ -25,7 +25,7 @@ public class GameSurfaceView extends SurfaceView implements Runnable,
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
-		// ‰ğ‘œ“xî•ñ•ÏX’Ê’mƒƒ\ƒbƒh
+		// ï¿½ğ‘œ“xï¿½ï¿½ï¿½ÏXï¿½Ê’mï¿½ï¿½ï¿½\ï¿½bï¿½h
 
 	}
 
@@ -37,19 +37,19 @@ public class GameSurfaceView extends SurfaceView implements Runnable,
 
 	@Override
 	public void run() {
-		while(thread!=null){// ƒƒCƒ“ƒ‹[ƒv
+		while(thread!=null){// ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½v
 			gameMgr.onUpdate();
 			onDraw(getHolder());
 		}
 	}
 
 	private void onDraw(SurfaceHolder holder) {
-		//•`‰æƒƒ\ƒbƒh
+		//ï¿½`ï¿½æƒï¿½\ï¿½bï¿½h
 		Canvas c = holder.lockCanvas();
 		if(c==null){
 			return;
 		}
-		//‚±‚±‚ÉƒQ[ƒ€•`‰æˆ—‚ğ‘‚­
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ÉƒQï¿½[ï¿½ï¿½ï¿½`ï¿½æˆï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		gameMgr.onDraw(c);
 		holder.unlockCanvasAndPost(c);
 		
