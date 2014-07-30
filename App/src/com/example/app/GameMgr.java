@@ -6,15 +6,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 
 public class GameMgr {
-	private LinkedList <Task>taskList = new LinkedList<Task>();//ƒ^ƒXƒNƒŠƒXƒg
+	private LinkedList <Task>taskList = new LinkedList<Task>();//ï¿½^ï¿½Xï¿½Nï¿½ï¿½ï¿½Xï¿½g
 	public GameMgr() {
+		taskList.add(new Player());
 		taskList.add(new FPScontroler());
 	}
 
 	public boolean onUpdate() {
 		for(int i=0;i<taskList.size();i++){
-			if(taskList.get(i).onUpdate() == false){//XVŽ¸”s‚µ‚½‚ç
-				taskList.remove();                  //‚»‚Ìƒ^ƒXƒN‚ð”jŠü‚·‚é
+			if(taskList.get(i).onUpdate() == false){//ï¿½Xï¿½Vï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				taskList.remove();                  //ï¿½ï¿½ï¿½Ìƒ^ï¿½Xï¿½Nï¿½ï¿½jï¿½ï¿½ï¿½
 				i--;
 			}
 		}
@@ -22,9 +23,9 @@ public class GameMgr {
 	}
 
 	public void onDraw(Canvas c) {
-		c.drawColor(Color.WHITE);//”’‚Å“h‚è‚Â‚Ô‚·
+		c.drawColor(Color.WHITE);//ï¿½ï¿½ï¿½Å“hï¿½ï¿½Â‚Ô‚ï¿½
 		for(int i=0;i<taskList.size();i++){
-			taskList.get(i).onDraw(c);//•`‰æ
+			taskList.get(i).onDraw(c);//ï¿½`ï¿½ï¿½
 		}
 ;		
 	}
