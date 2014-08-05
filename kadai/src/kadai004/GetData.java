@@ -17,6 +17,7 @@ public class GetData {
 	public static void main(String[] args) throws ClassNotFoundException {
 		Connection con = null;
 		Class.forName("org.sqlite.JDBC");
+		String sql = "select * from exam004";
 		try {
 			String csv = args.length > 0 ? args[0] : "hunabashi.csv";
 			String table = args.length > 0 ? args[1] : "exam004";
@@ -25,9 +26,7 @@ public class GetData {
 			Statement stmt = con.createStatement();
 			stmt.setQueryTimeout(30);
 
-			stmt.executeUpdate("create table if not exists "
-					+ table
-					+ "(uid integer UNIQUE,url string,contents string,value string)");
+			stmt.executeUpdate(sql);
 
 			try {
 				FileInputStream fis = new FileInputStream(csv);
