@@ -1,9 +1,9 @@
 package kadai004;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,50 +11,65 @@ import java.sql.Statement;
 
 public class DBCall {
 
-	public static void main(String[] args)  {
+	Statement stmt;
+	Connection con = null;
+
+	public DBCall() {
+
 		try {
 			Class.forName("org.sqlite.JDBC");
-		} catch (ClassNotFoundException e1) {
-			// TODO 自動生成された catch ブロック
-			e1.printStackTrace();
-		}
-		Connection con = null;
-		String csv = args.length > 0 ? args[0] : "hunabashi.csv";
-		String table = args.length > 0 ? args[1] : "exam004";
-		try {
 			con = DriverManager.getConnection("jdbc:sqlite:exam004.db");
-			Statement stmt = con.createStatement();
+			System.out.println("接続完了");
+			stmt = con.createStatement();
+			stmt.executeUpdate("drop table if exists exam004");
+			stmt.execute("create table exam004(Day String,MAX double,MIN double,AVG double)");
+			System.out.println("unko");
 
-			stmt.executeUpdate("create table if not exists " + table
-					+ " (uid integer UNIQUE,"
-					+ " url string, contents string, value string)");
-			FileInputStream fis = new FileInputStream(csv);
-			InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
-			BufferedReader br = new BufferedReader(isr);
-			String line = "";
-			String insert = "";
-			while ((line = br.readLine()) != null) {
-				insert = line;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		DBsave();
+
+	}
+
+	public static void main(String[] args) {
+		new DBCall();
+
+	}
+
+	public void DBsave() {
+
+		try {
+			File csv = new File("hunabashi.csv");
+			@SuppressWarnings("resource")
+			BufferedReader br = new BufferedReader(new FileReader(csv));
+			String s;
+
+			while ((s = br.readLine()) != null) {
+				String array[] = s.split(",");
+				if (array.length != 4)
+					throw new NumberFormatException();
+				String days = array[0];
+				double maxC = Double.parseDouble(array[1]);
+				double minC = Double.parseDouble(array[2]);
+				double avg = Double.parseDouble(array[3]);
+				System.out.println(days + "|" + maxC + "|" + minC + "|" + avg);
+				stmt.execute("insert into exam004 values('" + days + "'," + "'"
+						+ maxC + "'," + "'" + minC + "'," + "'" + avg + "')");
 			}
 			br.close();
-			insert = "insert or replace into " + table + " values(" + insert
-					+ ")";
-			stmt.executeUpdate(insert);
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (con != null) {
+			if (con != null) {
+				try {
 					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-				System.err.println(e);
 			}
-
 		}
 
 	}
