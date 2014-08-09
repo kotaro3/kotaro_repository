@@ -6,13 +6,25 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DBCall {
 
-	Statement stmt;
+	Statement stmt = null;
 	Connection con = null;
+	static ResultSet rs = null;
+	String sql = "select * from exam004";
+	String days;
+	double maxC;
+	double minC;
+	double avg;
+	static String maxD;
+	static String minD;
+	static String avgD;
 
 	public DBCall() {
 
@@ -21,25 +33,79 @@ public class DBCall {
 			con = DriverManager.getConnection("jdbc:sqlite:exam004.db");
 			System.out.println("接続完了");
 			stmt = con.createStatement();
-			stmt.executeUpdate("drop table if exists exam004");
-			stmt.execute("create table exam004(Day String,MAX double,MIN double,AVG double)");
+
 			System.out.println("unko");
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		DBsave();
 
 	}
 
-	public static void main(String[] args) {
-		new DBCall();
+	public void DataMax() {
+		try {
+			rs = stmt
+					.executeQuery("select Day from exam004 where MAXdata = (select max(MAXdata) from exam004)");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/mm/dd");
+			Date maxday = sdf.parse(rs.getString("Day"));
+			maxD = rs.getString("Day");
+			System.out.println("最大気温日：" + maxday);
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void DataMin() {
+		try {
+			rs = stmt
+					.executeQuery("select Day from exam004 where MINdata = (select min(MINdata) from exam004)");
+			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/mm/dd");
+			Date minday = sdf1.parse(rs.getString("Day"));
+			minD = rs.getString("Day");
+			System.out.println("最低気温日：" + minday);
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void DataAvg() {
+		try {
+			rs = stmt.executeQuery("select avg(AVGdata) from exam004");
+			avgD = rs.getString("avg(AVGdata)");
+			System.out.println("年間平均気温:" + rs.getFloat(1));
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 
-	public void DBsave() {
+	public void printData() {
+		try {
+			rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String days = rs.getString("Day");
+				String maxC = rs.getString("MAXdata");
+				String minC = rs.getString("MINdata");
+				String avg = rs.getString("AVGdata");
+				System.out.println(days + "|" + maxC + "|" + minC + "|" + avg);
+			}
+			rs.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void DBcreate() {
 
 		try {
+			stmt.executeUpdate("drop table if exists exam004");
+			stmt.execute("create table exam004(Day String,MAXdata double,MINdata double,AVGdata double)");
+
 			File csv = new File("hunabashi.csv");
 			@SuppressWarnings("resource")
 			BufferedReader br = new BufferedReader(new FileReader(csv));
@@ -49,29 +115,33 @@ public class DBCall {
 				String array[] = s.split(",");
 				if (array.length != 4)
 					throw new NumberFormatException();
-				String days = array[0];
-				double maxC = Double.parseDouble(array[1]);
-				double minC = Double.parseDouble(array[2]);
-				double avg = Double.parseDouble(array[3]);
-				System.out.println(days + "|" + maxC + "|" + minC + "|" + avg);
+				days = array[0];
+				maxC = Double.parseDouble(array[1]);
+				minC = Double.parseDouble(array[2]);
+				avg = Double.parseDouble(array[3]);
+
 				stmt.execute("insert into exam004 values('" + days + "'," + "'"
 						+ maxC + "'," + "'" + minC + "'," + "'" + avg + "')");
+				System.out.println(days + "|" + maxC + "|" + minC + "|" + avg);
+
 			}
 			br.close();
+			stmt.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.out.println("csvファイル読み込みエラー");
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 
+	}
+
+	public void close() {
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
