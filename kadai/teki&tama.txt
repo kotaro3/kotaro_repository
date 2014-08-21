@@ -1,0 +1,63 @@
+﻿///////////////////////////////////////////////////////////////////////////////
+//	敵クラス
+
+class Teki extends Chr {
+	// コンストラクタ
+	Teki() {
+		super(app.imgTeki);
+		// 初期座標を設定する
+		x = (int)(Math.random() * (app.getw() - w));
+		y = -h;
+	}
+
+	// 移動
+	void move() {
+		y += 8;
+		// 画面の一番下まで達したら死亡
+		if (y > app.geth()) dead();
+	}
+
+	// 当たり判定
+	// 弾にのみ当たり判定を行う
+	boolean checkHit(Chr t) {
+		if (t instanceof Tama) {
+			if (super.checkHit(t)) {
+				// 弾と当たったら爆発、スコア追加、自分と弾死亡
+				app.sndBang.play();
+				app.addScore(100);
+				dead();
+				t.dead();
+				return true;
+			}
+		}
+		return false;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//	弾クラス
+
+class Tama extends Chr {
+	private int vx, vy;				// 速度
+
+	// コンストラクタ
+	// 引数 x,y:座標（弾の中心を指定） vx,vy:速度
+	Tama(int x, int y, int vx, int vy) {
+		super(app.imgTama);
+		this.x = x - w / 2;
+		this.y = y - h / 2;
+		this.vx = vx;
+		this.vy = vy;
+	}
+
+	// 移動
+	void move() {
+		x += vx; y += vy;
+		// 画面外に出たら死亡
+		if (x < -w || x > app.getw() || y < -h || y > app.geth()) dead();
+	}
+
+	// 当たり判定
+	// 誰とも行わない
+	boolean checkHit(Chr t) {return false;}
+}
